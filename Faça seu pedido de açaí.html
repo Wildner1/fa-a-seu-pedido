@@ -7,7 +7,7 @@
 <style>
   body {
     font-family: 'Arial', sans-serif;
-    background: url('blob:https://web.whatsapp.com/768d4523-a7df-4e9c-9ab9-8c2144cc03b8') no-repeat center center fixed;
+    background: url('caminho-para-sua-imagem-de-fundo.jpg') no-repeat center center fixed;
     background-size: cover;
     margin: 0;
     padding: 0;
@@ -23,8 +23,12 @@
     border-radius: 8px;
     width: 340px;
   }
-  .form-item {
+  .form-group {
     margin-bottom: 15px;
+  }
+  label {
+    display: block;
+    text-align: left;
   }
   select, input, button {
     width: 100%;
@@ -45,11 +49,13 @@
   button:hover {
     opacity: 0.8;
   }
-  .item-image {
-    width: 100%;
-    height: auto;
-    border-radius: 4px;
-    margin-top: 10px;
+  .checkbox-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .checkbox-group label {
+    margin: 5px;
   }
 </style>
 </head>
@@ -58,21 +64,32 @@
 <div class="container">
   <h1>Bem Vindo à Loja do Geração Eleita</h1>
   <form id="pedidoForm">
-    <div class="form-item">
+    <div class="form-group">
       <label for="nome">Seu Nome:</label>
       <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required>
     </div>
 
-    <div class="form-item">
+    <div class="form-group">
       <label for="acai">Escolha o seu Açaí:</label>
       <img src="caminho-para-imagem-acai.jpg" alt="Açaí" class="item-image">
       <select id="acai" name="acai">
-        <option value="Açaí 300ml">300ml - R$6,00</option>
-        <option value="Açaí 500ml">500ml - R$10,00</option>
+        <option value="Açaí 300ml - R$6,00">300ml - R$6,00</option>
+        <option value="Açaí 500ml - R$10,00">500ml - R$10,00</option>
       </select>
     </div>
 
-    <!-- Repetir a estrutura abaixo para adicionais, coberturas e frutas -->
+    <div class="form-group">
+      <label>Adicionais:</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="adicionais" value="Leite em Pó"> Leite em Pó</label>
+        <label><input type="checkbox" name="adicionais" value="Leite Condensado"> Leite Condensado</label>
+        <label><input type="checkbox" name="adicionais" value="Paçoca"> Paçoca</label>
+        <label><input type="checkbox" name="adicionais" value="Granola"> Granola</label>
+        <label><input type="checkbox" name="adicionais" value="Amendoim"> Amendoim</label>
+      </div>
+    </div>
+
+    <!-- Repetir a estrutura acima para coberturas e frutas -->
 
     <button type="button" onclick="enviarPedido()">Faça seu pedido</button>
   </form>
@@ -82,12 +99,18 @@
 function enviarPedido() {
   var nome = document.getElementById('nome').value;
   var acai = document.getElementById('acai').value;
-  // Adicione as variáveis para adicionais, coberturas e frutas aqui
+  var adicionaisElements = document.querySelectorAll('input[name="adicionais"]:checked');
+  var adicionaisValues = Array.from(adicionaisElements).map(el => el.value);
+  
+  var mensagem = `Olá Geração Eleita, aqui está o meu pedido:
+  Nome: ${nome}
+  Açaí: ${acai}
+  Adicionais: ${adicionaisValues.join(', ')}
+  `;
+  
+  // Inclua aqui as variáveis e a lógica para as coberturas e frutas
 
-  var mensagem = `Nome: ${nome}, Pedido: Açaí: ${acai}`;
-  // Adicione os itens adicionais, coberturas e frutas à mensagem aqui
-
-  var numeroWhatsApp = "27997904763";
+  var numeroWhatsApp = "+5527997904763";
   window.open(`https://wa.me/55${numeroWhatsApp}?text=${encodeURIComponent(mensagem)}`, '_blank');
 }
 </script>
